@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import Avatar from "../Avatar";
@@ -8,7 +8,7 @@ import MenuItem from "./MenuItem";
 // import { signOut } from "next-auth/react";
 
 // import useLoginModal from "@/app/hooks/useLoginModal";
-// import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 // import useRentModal from "@/app/hooks/useRentModal";
 // import { SafeUser } from "@/app/types";
 
@@ -17,8 +17,29 @@ import MenuItem from "./MenuItem";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter()
-  const currentUser = false
+  const router = useRouter();
+  const registerModal = useRegisterModal()
+  const currentUser = false;
+  
+  //functionality to close the menu when clicking outside of it
+  const ref = useRef<HTMLDivElement>(null);
+  const specialDivRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+        if (
+            ref.current &&
+            !ref.current.contains(event.target as Node) &&
+            !(specialDivRef.current && specialDivRef.current.contains(event.target as Node))
+          ){
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -45,6 +66,7 @@ const UserMenu = () => {
           Airbnb your home
         </div>
         <div
+          ref={ref}
           onClick={toggleOpen}
           className="
         p-4
@@ -64,7 +86,7 @@ const UserMenu = () => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar  />
+            <Avatar />
           </div>
         </div>
       </div>
@@ -83,47 +105,35 @@ const UserMenu = () => {
           text-sm
         "
         >
-          <div className="flex flex-col cursor-pointer">
+          <div  ref={specialDivRef} className="flex flex-col cursor-pointer">
             {currentUser ? (
-            <>
-              <MenuItem 
-                label="My trips" 
-                onClick={() => router.push('/trips')}
-              />
-              <MenuItem 
-                label="My favorites" 
-                onClick={() => router.push('/favorites')}
-              />
-              <MenuItem 
-                label="My reservations" 
-                onClick={() => router.push('/reservations')}
-              />
-              <MenuItem 
-                label="My properties" 
-                onClick={() => router.push('/properties')}
-              />
-              <MenuItem 
-                label="Airbnb your home" 
-                onClick={()=>{}}
-              />
-              <hr />
-              <MenuItem 
-                label="Logout" 
-                onClick={()=>{}}
-              />
-            </>
-          ) : (
-            <>
-              <MenuItem 
-                label="Login" 
-                onClick={()=>{}}
-              />
-              <MenuItem 
-                label="Sign up" 
-                onClick={()=>{}}
-              />
-            </>
-          )}
+              <>
+                <MenuItem
+                  label="My trips"
+                  onClick={() => router.push("/trips")}
+                />
+                <MenuItem
+                  label="My favorites"
+                  onClick={() => router.push("/favorites")}
+                />
+                <MenuItem
+                  label="My reservations"
+                  onClick={() => router.push("/reservations")}
+                />
+                <MenuItem
+                  label="My properties"
+                  onClick={() => router.push("/properties")}
+                />
+                <MenuItem label="Airbnb your home" onClick={() => {}} />
+                <hr />
+                <MenuItem label="Logout" onClick={() => {}} />
+              </>
+            ) : (
+              <>
+                <MenuItem label="Login" onClick={() => {}} />
+                <MenuItem label="Sign up" onClick={registerModal.open} />
+              </>
+            )}
           </div>
         </div>
       )}
