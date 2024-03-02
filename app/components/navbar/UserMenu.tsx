@@ -1,5 +1,7 @@
 "use client";
 
+//03:16:00
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -49,11 +51,19 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
     setIsOpen((value) => !value);
   }, []);
 
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.open();
+    }
+
+    // rentModal.open()
+  }, [currentUser, loginModal]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-          onClick={() => {}}
+          onClick={onRent}
           className="
           hidden
           md:block
@@ -90,7 +100,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar src={currentUser?.image}/>
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>

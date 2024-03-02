@@ -112,7 +112,7 @@ const RegisterModal= () => {
       />
       <div 
         className="
-          text-neutral-500 
+          text-neutral-800 
           text-center 
           mt-4 
           font-light
@@ -122,7 +122,8 @@ const RegisterModal= () => {
           <span 
             onClick={onToggle} 
             className="
-              text-neutral-800
+            text-neutral-900
+              font-semibold
               cursor-pointer 
               hover:underline
             "

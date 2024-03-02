@@ -18,7 +18,7 @@ import Button from "../Button";
 import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
-    const router = useRouter();
+  const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [loading, setLoading] = useState(false);
@@ -37,29 +37,28 @@ const LoginModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setLoading(true);
 
-    signIn('credentials', { 
-        ...data, 
-        redirect: false,
-      })
-      .then((callback) => {
-        setLoading(false);
-  
-        if (callback?.ok) {
-          toast.success('Logged in successfully!');
-          router.refresh();
-          loginModal.close();
-        }
-        
-        if (callback?.error) {
-          toast.error(callback.error);
-        }
-      });
+    signIn("credentials", {
+      ...data,
+      redirect: false,
+    }).then((callback) => {
+      setLoading(false);
+
+      if (callback?.ok) {
+        toast.success("Logged in successfully!");
+        router.refresh();
+        loginModal.close();
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+    });
   };
 
   const onToggle = useCallback(() => {
-    registerModal.close();
-    loginModal.open();
-  }, [registerModal,loginModal]);
+    loginModal.close();
+    registerModal.open();
+  }, [registerModal, loginModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -72,7 +71,7 @@ const LoginModal = () => {
         errors={errors}
         required
       />
-    
+
       <Input
         id="password"
         label="Password"
@@ -92,13 +91,13 @@ const LoginModal = () => {
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => signIn('google')}
+        onClick={() => signIn("google")}
       />
       <Button
         outline
         label="Continue with Github"
         icon={AiFillGithub}
-        onClick={() => signIn('github')}
+        onClick={() => signIn("github")}
       />
       <div
         className="
@@ -109,23 +108,24 @@ const LoginModal = () => {
         "
       >
         <p>
-          Already have an account?
+          First time using Airbinb?
           <span
             onClick={onToggle}
             className="
-              text-neutral-800
+              text-neutral-900
+              font-semibold
               cursor-pointer 
               hover:underline
             "
           >
             {" "}
-            Log in
+            Create an account
           </span>
         </p>
       </div>
     </div>
   );
-  
+
   return (
     <Modal
       disabled={loading}
