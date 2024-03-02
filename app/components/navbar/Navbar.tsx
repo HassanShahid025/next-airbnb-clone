@@ -1,5 +1,6 @@
-'use client'
+"use client";
 import Container from "../Container";
+import Categories from "./Categories";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
@@ -9,8 +10,7 @@ type NavbarProps = {
   currentUser?: SafeUser | null;
 };
 
-
-const Navbar = ({currentUser}:NavbarProps) => {
+const Navbar = ({ currentUser }: NavbarProps) => {
   return (
     <div className="fixed w-full bg-white z-10 shadow-sm">
       <div
@@ -19,9 +19,9 @@ const Navbar = ({currentUser}:NavbarProps) => {
           border-b-[1px]
         "
       >
-      <Container>
-        <div 
-          className="
+        <Container>
+          <div
+            className="
             flex 
             flex-row 
             items-center 
@@ -29,15 +29,15 @@ const Navbar = ({currentUser}:NavbarProps) => {
             gap-3
             md:gap-0
           "
-        >
-          <Logo />
-          <Search />
-          <UserMenu currentUser={currentUser}/>
-        </div>
-      </Container>
+          >
+            <Logo />
+            <Search />
+            <UserMenu currentUser={currentUser} />
+          </div>
+        </Container>
+      </div>
+      <Categories />
     </div>
-    {/* <Categories /> */}
-  </div>
   );
 };
 
