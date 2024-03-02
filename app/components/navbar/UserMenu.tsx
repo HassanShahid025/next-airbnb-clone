@@ -9,32 +9,32 @@ import { signOut } from "next-auth/react";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
-import { User } from "@prisma/client";
+import { SafeUser } from "@/app/types";
 // import useRentModal from "@/app/hooks/useRentModal";
-// import { SafeUser } from "@/app/types";
-
 
 type UserMenuProps = {
-  currentUser?: User | null;
+  currentUser?: SafeUser | null;
 };
 
-const UserMenu = ({currentUser}:UserMenuProps) => {
+const UserMenu = ({ currentUser }: UserMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const registerModal = useRegisterModal()
-  const loginModal = useLoginModal()
-  
-  
+  const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
+
   //functionality to close the menu when clicking outside of it
   const ref = useRef<HTMLDivElement>(null);
   const specialDivRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-        if (
-            ref.current &&
-            !ref.current.contains(event.target as Node) &&
-            !(specialDivRef.current && specialDivRef.current.contains(event.target as Node))
-          ){
+      if (
+        ref.current &&
+        !ref.current.contains(event.target as Node) &&
+        !(
+          specialDivRef.current &&
+          specialDivRef.current.contains(event.target as Node)
+        )
+      ) {
         setIsOpen(false);
       }
     }
@@ -90,7 +90,7 @@ const UserMenu = ({currentUser}:UserMenuProps) => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar />
+            <Avatar src={currentUser?.image}/>
           </div>
         </div>
       </div>
@@ -109,7 +109,7 @@ const UserMenu = ({currentUser}:UserMenuProps) => {
           text-sm
         "
         >
-          <div  ref={specialDivRef} className="flex flex-col cursor-pointer">
+          <div ref={specialDivRef} className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
                 <MenuItem
@@ -130,7 +130,12 @@ const UserMenu = ({currentUser}:UserMenuProps) => {
                 />
                 <MenuItem label="Airbnb your home" onClick={() => {}} />
                 <hr />
-                <MenuItem label="Logout" onClick={() => {signOut()}} />
+                <MenuItem
+                  label="Logout"
+                  onClick={() => {
+                    signOut();
+                  }}
+                />
               </>
             ) : (
               <>

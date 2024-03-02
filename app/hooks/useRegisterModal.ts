@@ -1,4 +1,4 @@
-import {create} from 'zustand';
+import { create } from "zustand";
 
 type RegisterModalState = {
   isOpen: boolean;
@@ -7,9 +7,9 @@ type RegisterModalState = {
 };
 
 const useRegisterModal = create<RegisterModalState>((set) => ({
-    isOpen: false,
-    open: () => set({isOpen: true}),
-    close: () => set({isOpen: false}),
+  isOpen: false,
+  open: () => set({ isOpen: true }),
+  close: () => set({ isOpen: false }),
 }));
 
 export default useRegisterModal;
