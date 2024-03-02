@@ -5,21 +5,25 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
-// import { signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
-// import useLoginModal from "@/app/hooks/useLoginModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import { User } from "@prisma/client";
 // import useRentModal from "@/app/hooks/useRentModal";
 // import { SafeUser } from "@/app/types";
 
-// import MenuItem from "./MenuItem";
-// import Avatar from "../Avatar";
 
-const UserMenu = () => {
+type UserMenuProps = {
+  currentUser?: User | null;
+};
+
+const UserMenu = ({currentUser}:UserMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const registerModal = useRegisterModal()
-  const currentUser = false;
+  const loginModal = useLoginModal()
+  
   
   //functionality to close the menu when clicking outside of it
   const ref = useRef<HTMLDivElement>(null);
@@ -126,11 +130,11 @@ const UserMenu = () => {
                 />
                 <MenuItem label="Airbnb your home" onClick={() => {}} />
                 <hr />
-                <MenuItem label="Logout" onClick={() => {}} />
+                <MenuItem label="Logout" onClick={() => {signOut()}} />
               </>
             ) : (
               <>
-                <MenuItem label="Login" onClick={() => {}} />
+                <MenuItem label="Login" onClick={loginModal.open} />
                 <MenuItem label="Sign up" onClick={registerModal.open} />
               </>
             )}
