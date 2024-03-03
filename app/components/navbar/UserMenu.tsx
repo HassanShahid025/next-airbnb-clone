@@ -1,7 +1,5 @@
 "use client";
 
-//03:16:00
-
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -12,7 +10,7 @@ import { signOut } from "next-auth/react";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import { SafeUser } from "@/app/types";
-// import useRentModal from "@/app/hooks/useRentModal";
+import useRentModal from "@/app/hooks/useRentModal";
 
 type UserMenuProps = {
   currentUser?: SafeUser | null;
@@ -23,6 +21,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
   const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+  const rentModal = useRentModal();
 
   //functionality to close the menu when clicking outside of it
   const ref = useRef<HTMLDivElement>(null);
@@ -56,8 +55,8 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
       return loginModal.open();
     }
 
-    // rentModal.open()
-  }, [currentUser, loginModal]);
+    rentModal.open()
+  }, [currentUser, loginModal,rentModal]);
 
   return (
     <div className="relative">
@@ -138,7 +137,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
                   label="My properties"
                   onClick={() => router.push("/properties")}
                 />
-                <MenuItem label="Airbnb your home" onClick={() => {}} />
+                <MenuItem label="Airbnb my home" onClick={rentModal.open} />
                 <hr />
                 <MenuItem
                   label="Logout"
