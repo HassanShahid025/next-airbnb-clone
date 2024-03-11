@@ -16,7 +16,7 @@ const HeartButton = ({ listingId, currentUser }: HeartButtonProps) => {
     currentUser,
   });
 
-  console.log(listingId);
+  
 
   return (
     <div
