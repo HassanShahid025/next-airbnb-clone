@@ -71,8 +71,7 @@ const ListingClient = ({
       setIsLoading(false);
       toast.success("Reservation created successfully");
       setDateRange(initialDateRange);
-      //   router.push(`/reservations/${response.data.id}`);
-      router.refresh();
+      router.push('/trips');
     } catch (error) {
       setIsLoading(false);
       toast.error("An error occurred");
